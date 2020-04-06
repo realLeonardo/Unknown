@@ -26,6 +26,7 @@
     "webpack-cli": "^3.3.11"
   },
   "dependencies": {
-    "@types/jquery": "^3.3.34"
+    "@types/echarts": "^4.4.4",
+    "echarts": "^4.7.0"
   }
 }

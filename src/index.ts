@@ -1,12 +1,12 @@
 import './less/main.less'
-import editorEl from './components/editor'
-import toolsBarEl from './components/toolsBar'
+import Editor from './components/editor'
+import ToolsBar from './components/toolsBar'
 
 function init(){
-  const bodyEL: HTMLElement = document.body
+  const bodyEl: HTMLElement = document.body
 
-  // bodyEL.append(toolsBarEl)
-  bodyEL.append(editorEl)
+  new ToolsBar(bodyEl, {})
+  new Editor(bodyEl, {})
 
   /**
    * TODO：全局事件

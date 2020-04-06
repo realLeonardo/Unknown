@@ -5,68 +5,72 @@ interface State {
   currentEl: HTMLElement
 }
 
-class EditorComponent {
-  public el: HTMLElement
-  public state: State = {
+export default class EditorComponent {
+  private rootEl: HTMLElement
+  private state: State = {
     currentEl: undefined,
   }
 
-  constructor() {
-    const el = document.createElement('div')
-    el.className = 'editor-container'
+  constructor(container: HTMLElement, props ? : {}) {
+    const rootEl = document.createElement('div')
+    rootEl.className = 'editor-container'
 
-    el.innerHTML = `
-      <p contenteditable="true" data-index="0">Edit here</p>
-    `
-    this.el = el
+    const pItem = document.createElement('p')
+    pItem.setAttribute('contenteditable', 'true')
+    pItem.setAttribute('data-index', '0')
+    pItem.innerText = 'Edit here'
 
-    NodesDataService.push({element: el, content: el.innerText})
+    rootEl.append(pItem)
+    this.rootEl = rootEl
 
+
+    NodesDataService.push({
+      element: pItem,
+      content: pItem.innerText
+    })
+
+    container.append(this.rootEl)
+    this.init()
+  }
+
+  private init() {
     this.initEventHandle()
   }
-
-  /**
-   * Render: render a HTMLElement
-   */
-  public render(): HTMLElement {
-    // TODO
-    return this.el
-  }
-
   private handleEditorClick(e: Event) {
     this.state.currentEl = e.srcElement as HTMLElement
   }
   private handleEditorInput(e: KeyboardEvent) {
-    console.log(e)
+    // console.log(e)
     // 插入
     if (e.key === 'Tab') {
       // Tab
       e.preventDefault()
-      console.log(this.state.currentEl.getAttribute('data-index'))
-      const span = document.createElement('span')
-      span.innerHTML = '->'
-      this.state.currentEl.insertBefore(span, this.state.currentEl.firstChild)
-    } else if(e.key === 'Enter') {
+      NodesDataService.turn(this.state.currentEl)
+    } else if (e.key === 'Enter') {
       // 回车
       e.preventDefault()
-      if(this.state.currentEl.nextElementSibling){
+      if (this.state.currentEl.nextElementSibling) {
         const next = this.state.currentEl.nextElementSibling as HTMLElement
         this.state.currentEl = next
       } else {
         const p = document.createElement('p')
+
         p.setAttribute('contenteditable', 'true')
-        p.setAttribute('data-index', NodesDataService.length + '')
-        this.el.append(p)
+        p.setAttribute('data-index', NodesDataService.getLength() + '')
+        this.rootEl.append(p)
         this.state.currentEl = p
         // TODO
-        NodesDataService.push({element: p, content: p.innerText})
+        NodesDataService.push({
+          element: p,
+          content: p.innerText
+        })
       }
       this.state.currentEl.focus()
-    } else if(e.key === 'Backspace') {
+    } else if (e.key === 'Backspace') {
       // 删除
       const currentEl = this.state.currentEl
-      if(currentEl.innerText === ''){
-        if(currentEl.previousElementSibling){
+      if (currentEl.innerText === '') {
+        if (currentEl.previousElementSibling) {
           const next = this.state.currentEl.previousElementSibling as HTMLElement
           this.state.currentEl = next
           currentEl.remove()
@@ -78,10 +82,8 @@ class EditorComponent {
       this.state.currentEl.focus()
     }
   }
-  private initEventHandle(){
-    this.el.addEventListener('click', this.handleEditorClick.bind(this))
-    this.el.addEventListener('keydown', this.handleEditorInput.bind(this))
+  private initEventHandle() {
+    this.rootEl.addEventListener('click', this.handleEditorClick.bind(this))
+    this.rootEl.addEventListener('keydown', this.handleEditorInput.bind(this))
   }
 }
-
-export default new EditorComponent().render()
