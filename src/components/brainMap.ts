@@ -1,39 +1,52 @@
 import * as echarts from 'echarts'
 import '../less/brain-map.less'
 import NodesDataService, { NodeItem } from '../services/NodesDataSevice'
+import Editor from './editor'
 
 interface State {
-  containerEl: HTMLDivElement
+  containerEl: HTMLDivElement,
+  closeBtnEl: HTMLElement
 }
 
-export default class BrainMapComponent {
+class BrainMapComponent {
   private rootEl: HTMLElement
   private state: State = {
     containerEl: undefined,
+    closeBtnEl: undefined
   }
 
-  constructor(container: HTMLElement = document.body, props ? : {}) {
+  constructor() {
+    // do nothing
+  }
+
+  public init(container: HTMLElement = document.body, props ? : {}) {
     const rootEl = document.createElement('div')
     rootEl.className = 'brain-map-cover'
+
     const containerEl = document.createElement('div')
     containerEl.className = 'brain-map-container'
     rootEl.append(containerEl)
 
+    // 关闭按钮
+    const closeBtnEl = document.createElement('span')
+    closeBtnEl.className = 'close-btn'
+    closeBtnEl.innerText = '❌'
+    rootEl.append(closeBtnEl)
+
     this.rootEl = rootEl
     this.state.containerEl = containerEl
+    this.state.closeBtnEl = closeBtnEl
     container.append(this.rootEl)
-    this.init()
-  }
 
-  private init() {
+    this.initEventHandle()
     const myEcharts = echarts.init(this.state.containerEl)
 
     let data: any[] = []
     for(const item of NodesDataService.getData()){
       data.push(this.formatNodesDataToEcharts(item))
     }
-    // TODO: title
-    data = [{name: 'title', children: data}]
+
+    data = [{name: Editor.getTitle(), children: data}]
 
     const option = {
       tooltip: {
@@ -47,7 +60,7 @@ export default class BrainMapComponent {
         symbol: 'circle',
         symbolSize: 4,
         edgeShape: 'polyline',
-        roam: true,
+        roam: 'move',
         itemStyle: {
           color: '#37352F',
         },
@@ -83,6 +96,14 @@ export default class BrainMapComponent {
     myEcharts.setOption(option)
   }
 
+  private handleCloseBtnClick(){
+    this.rootEl.remove()
+  }
+
+  private initEventHandle(){
+    this.state.closeBtnEl.addEventListener('click', this.handleCloseBtnClick.bind(this))
+  }
+
   private formatNodesDataToEcharts(n: NodeItem){
     if(n.children.length === 0){
       return {
@@ -90,9 +111,10 @@ export default class BrainMapComponent {
       }
     }
 
-    for(let i=0;i<n.children.length;i++){
-      n.children[i] = this.formatNodesDataToEcharts(n.children[i]) as any
-    }
+    // for(let i=0; i<n.children.length; i++){
+    //   n.children[i] = this.formatNodesDataToEcharts(n.children[i]) as any
+    // }
+    n.children.forEach((item, i)=>n.children[i] = this.formatNodesDataToEcharts(item) as any)
 
     return {
       name: n.node.element.innerText,
@@ -100,3 +122,5 @@ export default class BrainMapComponent {
     }
   }
 }
+
+export default new BrainMapComponent()

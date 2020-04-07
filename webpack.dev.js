@@ -15,5 +15,10 @@ module.exports = merge ( common, {
       new webpack.NamedModulesPlugin(),
       new webpack.HotModuleReplacementPlugin()
     ],
+    optimization: {
+      removeAvailableModules: false,
+      removeEmptyChunks: false,
+      splitChunks: false,
+    }
   }
 )

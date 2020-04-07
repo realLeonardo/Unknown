@@ -5,8 +5,8 @@ import ToolsBar from './components/toolsBar'
 function init(){
   const bodyEl: HTMLElement = document.body
 
-  new ToolsBar()
-  new Editor()
+  ToolsBar.init()
+  Editor.init()
 
   /**
    * TODO：全局事件

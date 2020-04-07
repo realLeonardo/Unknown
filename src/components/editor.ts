@@ -2,27 +2,49 @@ import '../less/editor.less'
 import NodesDataService from '../services/NodesDataSevice'
 
 interface State {
-  currentEl: HTMLElement
+  containerEl: HTMLDivElement
+  currentEditEl: HTMLElement
+  titleInputEl: HTMLInputElement
+  title: string
 }
 
-export default class EditorComponent {
+class EditorComponent {
   private rootEl: HTMLElement
   private state: State = {
-    currentEl: undefined,
+    containerEl: undefined,
+    currentEditEl: undefined,
+    titleInputEl: undefined,
+    title: 'Untitled'
   }
 
-  constructor(container: HTMLElement = document.body, props ? : {}) {
-    const rootEl = document.createElement('div')
-    rootEl.className = 'editor-container'
+  constructor() {
+    // do nothing
+  }
 
+  public init(container: HTMLElement = document.body, props ? : {}) {
+    const rootEl = document.createElement('div')
+    rootEl.className = 'editor-root-container'
+    this.rootEl = rootEl
+
+    // 标题输入框
+    const titleInputEl = document.createElement('input')
+    titleInputEl.className = 'editor-title-input'
+    titleInputEl.setAttribute('type', 'text')
+    titleInputEl.value = this.state.title
+    this.state.titleInputEl = titleInputEl
+    rootEl.append(titleInputEl)
+
+    const containerEl = document.createElement('div')
+    containerEl.className = 'editor-content-container'
+    this.state.containerEl = containerEl
+    rootEl.append(containerEl)
+
+    // TODO
     const pItem = document.createElement('p')
     pItem.setAttribute('contenteditable', 'true')
     pItem.setAttribute('data-index', '0')
     pItem.innerText = 'Edit here'
-
-    rootEl.append(pItem)
-    this.rootEl = rootEl
-
+    containerEl.append(pItem)
 
     NodesDataService.push({
       element: pItem,
@@ -30,14 +52,22 @@ export default class EditorComponent {
     })
 
     container.append(this.rootEl)
-    this.init()
-  }
-
-  private init() {
     this.initEventHandle()
   }
+  public getTitle(): string{
+    return this.state.title
+  }
+
+  private initEventHandle() {
+    this.state.containerEl.addEventListener('click', this.handleEditorClick.bind(this))
+    this.state.containerEl.addEventListener('keydown', this.handleEditorInput.bind(this))
+    this.state.titleInputEl.addEventListener('input', this.handleTitleInputChange.bind(this))
+  }
   private handleEditorClick(e: Event) {
-    this.state.currentEl = e.srcElement as HTMLElement
+    this.state.currentEditEl = e.srcElement as HTMLElement
+  }
+  private handleTitleInputChange(e: InputEvent) {
+    this.state.title = (e.target as HTMLInputElement).value
   }
   private handleEditorInput(e: KeyboardEvent) {
     // console.log(e)
@@ -45,45 +75,43 @@ export default class EditorComponent {
     if (e.key === 'Tab') {
       // Tab
       e.preventDefault()
-      NodesDataService.turn(this.state.currentEl)
+      NodesDataService.turn(this.state.currentEditEl)
     } else if (e.key === 'Enter') {
       // 回车
       e.preventDefault()
-      if (this.state.currentEl.nextElementSibling) {
-        const next = this.state.currentEl.nextElementSibling as HTMLElement
-        this.state.currentEl = next
+      if (this.state.currentEditEl.nextElementSibling) {
+        const next = this.state.currentEditEl.nextElementSibling as HTMLElement
+        this.state.currentEditEl = next
       } else {
         const p = document.createElement('p')
 
         p.setAttribute('contenteditable', 'true')
         p.setAttribute('data-index', NodesDataService.getLength() + '')
-        this.rootEl.append(p)
-        this.state.currentEl = p
+        this.state.containerEl.append(p)
+        this.state.currentEditEl = p
         // TODO
         NodesDataService.push({
           element: p,
           content: p.innerText
         })
       }
-      this.state.currentEl.focus()
+      this.state.currentEditEl.focus()
     } else if (e.key === 'Backspace') {
       // 删除
-      const currentEl = this.state.currentEl
-      if (currentEl.innerText === '') {
-        if (currentEl.previousElementSibling) {
-          const next = this.state.currentEl.previousElementSibling as HTMLElement
-          this.state.currentEl = next
-          currentEl.remove()
+      const currentEditEl = this.state.currentEditEl
+      if (currentEditEl.innerText === '') {
+        if (currentEditEl.previousElementSibling) {
+          const next = this.state.currentEditEl.previousElementSibling as HTMLElement
+          this.state.currentEditEl = next
+          currentEditEl.remove()
           e.preventDefault()
         } else {
           // do nothing
         }
       }
-      this.state.currentEl.focus()
+      this.state.currentEditEl.focus()
     }
   }
-  private initEventHandle() {
-    this.rootEl.addEventListener('click', this.handleEditorClick.bind(this))
-    this.rootEl.addEventListener('keydown', this.handleEditorInput.bind(this))
-  }
 }
+
+export default new EditorComponent()
