@@ -12,7 +12,7 @@ export default class BrainMapComponent {
     containerEl: undefined,
   }
 
-  constructor(container: HTMLElement, props ? : {}) {
+  constructor(container: HTMLElement = document.body, props ? : {}) {
     const rootEl = document.createElement('div')
     rootEl.className = 'brain-map-cover'
     const containerEl = document.createElement('div')
@@ -28,10 +28,12 @@ export default class BrainMapComponent {
   private init() {
     const myEcharts = echarts.init(this.state.containerEl)
 
-    const data: any[] = []
+    let data: any[] = []
     for(const item of NodesDataService.getData()){
       data.push(this.formatNodesDataToEcharts(item))
     }
+    // TODO: title
+    data = [{name: 'title', children: data}]
 
     const option = {
       tooltip: {
@@ -53,7 +55,7 @@ export default class BrainMapComponent {
           show: true,
           color: '#37352F',
           fontSize: 16,
-          position: 'inline',
+          position: 'right',
           align: 'left',
           verticalAlign: 'middle',
         },
@@ -80,7 +82,6 @@ export default class BrainMapComponent {
 
     myEcharts.setOption(option)
   }
-  private handleEditorClick(e: Event) {}
 
   private formatNodesDataToEcharts(n: NodeItem){
     if(n.children.length === 0){

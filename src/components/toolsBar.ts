@@ -10,7 +10,7 @@ export default class TollsBarComponent {
   private rootEl: HTMLElement
   private state: State = {}
 
-  constructor(container: HTMLElement, props ? : {}) {
+  constructor(container: HTMLElement = document.body, props ? : {}) {
     const rootEl = document.createElement('div')
     rootEl.className = 'tools-bar-container'
 

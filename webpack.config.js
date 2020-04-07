@@ -6,8 +6,8 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin')
 module.exports = {
   entry: './src/index.ts',
   output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist')
+    filename: '[name].[hash].js',
+    path: path.resolve(__dirname, 'dist'),
   },
   mode: 'development',
   devtool: 'inline-source-map',
@@ -15,6 +15,7 @@ module.exports = {
     rules: [{
       test: /\.ts$/,
       use: 'ts-loader',
+      include: path.resolve(__dirname, 'src'),
       exclude: /node_modules/
     }, {
       test: /\.less$/,
@@ -47,5 +48,19 @@ module.exports = {
   ],
   resolve: {
     extensions: ['.ts', '.js']
-  }
+  },
+  optimization: {
+    usedExports: true,
+    moduleIds: 'hashed',
+    runtimeChunk: 'single',
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all',
+        },
+      },
+    },
+  },
 }

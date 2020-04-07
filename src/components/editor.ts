@@ -11,7 +11,7 @@ export default class EditorComponent {
     currentEl: undefined,
   }
 
-  constructor(container: HTMLElement, props ? : {}) {
+  constructor(container: HTMLElement = document.body, props ? : {}) {
     const rootEl = document.createElement('div')
     rootEl.className = 'editor-container'
 
