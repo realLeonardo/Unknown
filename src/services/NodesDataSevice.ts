@@ -1,20 +1,9 @@
-interface Node {
-  element: HTMLElement
-  content: string
-}
-
-export interface NodeItem {
-  node: Node
-  name: string
-  parent: NodeItem | undefined
-  children: NodeItem[]
-}
 
 class NodesDataService {
   /**
    * 数据长度
    */
-  private nodeData: NodeItem[] = []
+  private nodeData: ArticleDataTypes.ContentItem[] = []
 
   /**
    * 插入数据
@@ -26,17 +15,16 @@ class NodesDataService {
   /**
    * 获取数据
    */
-  public getData(): NodeItem[] {
+  public getData(): ArticleDataTypes.ContentItem[] {
     return this.nodeData
   }
   /**
    * 插入数据
    * @param node 待插入的nodeData
    */
-  public push(node: Node) {
+  public push(node: NodeDataTypes.Node) {
     this.nodeData.push({
       node,
-      name: node.element.innerText,
       parent: undefined,
       children: []
     })
@@ -51,7 +39,7 @@ class NodesDataService {
     const firstIndex = parseInt(indexArr.shift())
     const lastIndex = parseInt(indexArr[indexArr.length - 1])
     // 通过 indexArr 找到在节点树中该节点的数据
-    let n: NodeItem = this.nodeData[firstIndex]
+    let n: ArticleDataTypes.ContentItem = this.nodeData[firstIndex]
     for (const i of indexArr) {
       n = n.children[parseInt(i)]
     }
@@ -69,7 +57,7 @@ class NodesDataService {
     const firstIndex = parseInt(indexArr.shift())
 
     // 通过 indexArr 找到在节点树中该节点的数据
-    let n: NodeItem = this.nodeData[firstIndex]
+    let n: ArticleDataTypes.ContentItem = this.nodeData[firstIndex]
     for (const i of indexArr) {
       n = n.children[parseInt(i)]
     }
@@ -111,7 +99,7 @@ class NodesDataService {
     const firstIndex = parseInt(indexArr.shift())
 
     // 通过 indexArr 找到在节点树中该节点的数据
-    let n: NodeItem = this.nodeData[firstIndex]
+    let n: ArticleDataTypes.ContentItem = this.nodeData[firstIndex]
     for (const i of indexArr) {
       n = n.children[parseInt(i)]
     }

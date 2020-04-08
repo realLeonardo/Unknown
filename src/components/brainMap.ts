@@ -1,6 +1,6 @@
 import * as echarts from 'echarts'
 import '../less/brain-map.less'
-import NodesDataService, { NodeItem } from '../services/NodesDataSevice'
+import NodesDataService from '../services/NodesDataSevice'
 import Editor from './editor'
 
 interface State {
@@ -49,10 +49,6 @@ class BrainMapComponent {
     data = [{name: Editor.getTitle(), children: data}]
 
     const option = {
-      tooltip: {
-        trigger: 'item',
-        triggerOn: 'mousemove'
-      },
       series: [{
         type: 'tree',
         layout: 'orthogonal',
@@ -104,17 +100,17 @@ class BrainMapComponent {
     this.state.closeBtnEl.addEventListener('click', this.handleCloseBtnClick.bind(this))
   }
 
-  private formatNodesDataToEcharts(n: NodeItem){
+  private formatNodesDataToEcharts(n: ArticleDataTypes.ContentItem){
     if(n.children.length === 0){
       return {
         name: n.node.element.innerText,
       }
     }
 
-    // for(let i=0; i<n.children.length; i++){
-    //   n.children[i] = this.formatNodesDataToEcharts(n.children[i]) as any
-    // }
-    n.children.forEach((item, i)=>n.children[i] = this.formatNodesDataToEcharts(item) as any)
+    for(let i=0; i<n.children.length; i++){
+      n.children[i] = this.formatNodesDataToEcharts(n.children[i]) as any
+    }
+    // n.children.forEach((item, i)=>n.children[i] = this.formatNodesDataToEcharts(item) as any)
 
     return {
       name: n.node.element.innerText,

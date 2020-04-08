@@ -34,30 +34,36 @@ class EditorComponent {
     this.state.titleInputEl = titleInputEl
     rootEl.append(titleInputEl)
 
+    // content container
     const containerEl = document.createElement('div')
     containerEl.className = 'editor-content-container'
     this.state.containerEl = containerEl
     rootEl.append(containerEl)
 
-    // TODO
-    const pItem = document.createElement('p')
-    pItem.setAttribute('contenteditable', 'true')
-    pItem.setAttribute('data-index', '0')
-    pItem.innerText = 'Edit here'
-    containerEl.append(pItem)
-
-    NodesDataService.push({
-      element: pItem,
-      content: pItem.innerText
-    })
-
     container.append(this.rootEl)
+    this.initState()
     this.initEventHandle()
   }
   public getTitle(): string{
     return this.state.title
   }
+  public getContentString(): string{
+    return this.state.containerEl.innerHTML
+  }
 
+  private initState(){
+    // Just for test
+    const pItem = document.createElement('p')
+    pItem.setAttribute('contenteditable', 'true')
+    pItem.setAttribute('data-index', '0')
+    pItem.innerText = 'Edit here'
+    this.state.containerEl.append(pItem)
+
+    NodesDataService.push({
+      element: pItem,
+      content: pItem.innerText
+    })
+  }
   private initEventHandle() {
     this.state.containerEl.addEventListener('click', this.handleEditorClick.bind(this))
     this.state.containerEl.addEventListener('keydown', this.handleEditorInput.bind(this))
@@ -70,7 +76,6 @@ class EditorComponent {
     this.state.title = (e.target as HTMLInputElement).value
   }
   private handleEditorInput(e: KeyboardEvent) {
-    // console.log(e)
     // 插入
     if (e.key === 'Tab') {
       // Tab

@@ -12,22 +12,19 @@
   
   >.editor-title-input{
     width: 100%;
-    height: 40px;
-    margin-bottom: 40px;
-    font-size: 24px;
-    line-height: 1.2;
+    margin-bottom: 20px;
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 48px;
+    color: #37352f;
     outline: none;
     border: none;
-    border-bottom: 1px solid lightgray;
-
-    &:focus{
-      border-bottom: 1px solid gray;
-    }
   }
 
   >.editor-content-container{
     width: 100%;
     overflow-y: auto;
+    color: #37352f;
 
     >[contenteditable = true]{
       cursor: text;
@@ -35,12 +32,7 @@
   
     p[contenteditable = true]{
       outline: none;
-      border-bottom: 1px solid lightgray;
       padding: 8px 0 2px 0;
-  
-      &:focus{
-        border-bottom: 1px solid gray;
-      }
     }
   }
 }

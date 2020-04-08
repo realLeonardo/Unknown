@@ -1,4 +1,3 @@
-// import { STORAGE_KEY_PREFIX } from '../base/const'
 const STORAGE_KEY_PREFIX = 'unknown'
 
 class Storage {
@@ -7,7 +6,7 @@ class Storage {
     for (key in data) {
       try {
         const stringifyValue = JSON.stringify(data[key] || '')
-        localStorage.setItem(`${STORAGE_KEY_PREFIX}${key}`, stringifyValue)
+        localStorage.setItem(`${STORAGE_KEY_PREFIX}_${key}`, stringifyValue)
       } catch (error) {
         console.error('设置储存字段失败:', key, data[key])
       }
@@ -21,7 +20,7 @@ class Storage {
     const res: Pick<StorageData, K> = {} as any
     for (const key of keys) {
       try {
-        const stringifyValue = localStorage.getItem(`${STORAGE_KEY_PREFIX}${key}`)
+        const stringifyValue = localStorage.getItem(`${STORAGE_KEY_PREFIX}_${key}`)
         res[key] = JSON.parse(stringifyValue as string)
       } catch (error) {
         console.error('获取储存字段失败:', key)
@@ -32,3 +31,12 @@ class Storage {
 }
 
 export let storage = new Storage()
+
+
+// 使用示例
+// storage.get(['hasShownViolationDetectionTipFlag'], ({ hasShownViolationDetectionTipFlag }) => {
+//   if (!hasShownViolationDetectionTipFlag) {
+//     this.showViolationDetectionTip = true
+//   }
+// })
+// storage.set({ hasShownDarkModeTipFlag: true })
