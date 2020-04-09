@@ -50,6 +50,11 @@ class EditorComponent {
   public getContentString(): string{
     return this.state.containerEl.innerHTML
   }
+  public setArticle(article: ArticleDataTypes.ArticleData){
+    this.state.title = article.title
+    this.state.titleInputEl.value = article.title
+    this.state.containerEl.innerHTML = article.content
+  }
 
   private initState(){
     // Just for test

@@ -1,11 +1,11 @@
 import '../less/tools-bar.less'
 import NodesDataSevice from '../services/NodesDataSevice'
 import brainMap from './brainMap'
-import {
-  storage
-} from '../services/StorageService'
+import articleList from './articleList'
+import { storage } from '../services/StorageService'
 import editor from './editor'
 
+// tslint:disable-next-line: no-empty-interface
 interface State {
   // do nothing
 }
@@ -65,6 +65,7 @@ class TollsBarComponent {
         savedArticleData = [data]
       }
       storage.set({ savedArticleData })
+      articleList.refresh()
     })
   }
   private handleSaveArticleBtnClick(e: Event) {
