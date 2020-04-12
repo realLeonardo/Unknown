@@ -4,6 +4,8 @@ import { storage } from '../services/StorageService'
 import articleList from './articleList'
 import ArticleDataService from '../services/ArticleDataService'
 
+const DEFAULT_ARTICLE_CONTENT = '<p contenteditable="true" data-index="0">Edit here</p>'
+
 interface State {
   containerEl: HTMLDivElement
   currentEditEl: HTMLElement
@@ -63,8 +65,8 @@ class EditorComponent {
   }
   public async saveArticle() {
     const savedArticleData = await ArticleDataService.getAll()
-    console.log(savedArticleData)
 
+    // TODO
     for (let i = 0; i < savedArticleData.length; i++) {
       if (savedArticleData[i].id === this.state.id) {
         console.log(savedArticleData[i])
@@ -80,16 +82,10 @@ class EditorComponent {
   public async createArticle() {
     let savedArticleData = await ArticleDataService.getAll()
 
-    const pItem = document.createElement('p')
-    pItem.setAttribute('contenteditable', 'true')
-    pItem.setAttribute('data-index', '0')
-    pItem.innerText = 'Edit here'
-    this.state.containerEl.append(pItem)
-
     const data: ArticleDataTypes.ArticleData = {
       id: Date.now().toString(16),
       title: 'Untitled',
-      content: this.getContentString(),
+      content: DEFAULT_ARTICLE_CONTENT,
       createAt: Date.now(),
     }
     this.state.id = data.id
@@ -107,6 +103,9 @@ class EditorComponent {
 
     savedArticleData = savedArticleData.filter(item => item.id !== this.state.id)
     storage.set({ savedArticleData })
+    if (savedArticleData.length === 0) {
+      this.createArticle()
+    }
     articleList.refresh()
   }
 

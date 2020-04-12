@@ -34,17 +34,17 @@ class TollsBarComponent {
     genTreeMapBtnEl.addEventListener('click', this.handleShowBrainMapClick.bind(this))
     this.rootEl.append(genTreeMapBtnEl)
 
-    const saveArticleBtnEl = document.createElement('button')
-    saveArticleBtnEl.className = 'tool-btn save-data-btn'
-    saveArticleBtnEl.innerHTML = 'Save'
-    saveArticleBtnEl.addEventListener('click', this.handleSaveArticleBtnClick.bind(this))
-    this.rootEl.append(saveArticleBtnEl)
-
     const createArticleBtnEl = document.createElement('button')
     createArticleBtnEl.className = 'tool-btn create-article-btn'
     createArticleBtnEl.innerHTML = 'New'
     createArticleBtnEl.addEventListener('click', this.handleCreateArticleBtnClick.bind(this))
     this.rootEl.append(createArticleBtnEl)
+
+    const saveArticleBtnEl = document.createElement('button')
+    saveArticleBtnEl.className = 'tool-btn save-data-btn'
+    saveArticleBtnEl.innerHTML = 'Save'
+    saveArticleBtnEl.addEventListener('click', this.handleSaveArticleBtnClick.bind(this))
+    this.rootEl.append(saveArticleBtnEl)
 
     const deleteArticleBtnEl = document.createElement('button')
     deleteArticleBtnEl.className = 'tool-btn delete-article-btn'
