@@ -1,6 +1,6 @@
 @import './global.less';
 
-.editor-root-container{
+.editor-root-container {
   position: relative;
   width: 100%;
   height: 100%;
@@ -9,8 +9,8 @@
   flex-direction: column;
   justify-content: start;
   align-items: center;
-  
-  >.editor-title-input{
+
+  > .editor-title-input {
     width: 100%;
     margin-bottom: 20px;
     font-size: 40px;
@@ -21,16 +21,16 @@
     border: none;
   }
 
-  >.editor-content-container{
+  > .editor-content-container {
     width: 100%;
     overflow-y: auto;
     color: #37352f;
 
-    >[contenteditable = true]{
+    > [contenteditable='true'] {
       cursor: text;
     }
-  
-    p[contenteditable = true]{
+
+    p[contenteditable='true'] {
       outline: none;
       padding: 8px 0 2px 0;
     }

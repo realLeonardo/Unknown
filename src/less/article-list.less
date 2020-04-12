@@ -1,33 +1,45 @@
-
-#sidebar-container{
-
-  >.title{
+#sidebar-container {
+  > .title {
     padding: 10px 14px;
     font-size: 14px;
     line-height: 50px;
     color: #37352f;
   }
-  >.articles-list-container{
+  > .articles-list-container {
     width: 100%;
 
-    >.article-container{
-      padding: 3px 14px;
+    > .article-container {
+      padding: 5px 14px;
       cursor: pointer;
+      color: #37352f;
 
-      >.title{
+      > .title {
         font-size: 14px;
         line-height: 22px;
-        color: #37352f;
+      }
+      > .time {
+        font-size: 11px;
+        line-height: 14px;
       }
 
-      &:hover{
+      &:hover {
         background-color: #e8e7e4;
+        color: black;
+
+        > .title {
+          font-size: 14px;
+          font-weight: bold;
+        }
       }
     }
-    >.article-container.active{
-      font-weight: bold;
+    > .article-container.active {
       background-color: #e8e7e4;
+      color: black;
+
+      > .title {
+        font-size: 14px;
+        font-weight: bold;
+      }
     }
-    
   }
 }

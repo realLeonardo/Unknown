@@ -3,7 +3,7 @@ import Editor from './components/editor'
 import ToolsBar from './components/toolsBar'
 import ArticleList from './components/articleList'
 
-function init(){
+function init() {
   const bodyEl = document.body
   const mainContainerEl = document.createElement('div')
   mainContainerEl.id = 'main-container'

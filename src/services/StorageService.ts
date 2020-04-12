@@ -16,11 +16,16 @@ class Storage {
     }
   }
 
-  public get<K extends StorageKey>(keys: K[], callback: (data: Pick<StorageData, K>) => void) {
+  public get<K extends StorageKey>(
+    keys: K[],
+    callback: (data: Pick<StorageData, K>) => void
+  ) {
     const res: Pick<StorageData, K> = {} as any
     for (const key of keys) {
       try {
-        const stringifyValue = localStorage.getItem(`${STORAGE_KEY_PREFIX}_${key}`)
+        const stringifyValue = localStorage.getItem(
+          `${STORAGE_KEY_PREFIX}_${key}`
+        )
         res[key] = JSON.parse(stringifyValue as string)
       } catch (error) {
         console.error('获取储存字段失败:', key)
@@ -31,7 +36,6 @@ class Storage {
 }
 
 export let storage = new Storage()
-
 
 // 使用示例
 // storage.get(['hasShownViolationDetectionTipFlag'], ({ hasShownViolationDetectionTipFlag }) => {

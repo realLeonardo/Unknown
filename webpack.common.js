@@ -9,36 +9,34 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
   },
   module: {
-    rules: [{
-      test: /\.ts$/,
-      use: 'ts-loader',
-      include: path.resolve(__dirname, 'src'),
-      exclude: /node_modules/
-    }, {
-      test: /\.less$/,
-      use: [
-        'style-loader',
-        'css-loader',
-        'less-loader'
-      ],
-      include: path.resolve(__dirname, 'src/less')
-    }, {
-      test: /\.(png|svg|jpg|gif)$/,
-      use: [
-        'file-loader'
-      ],
-      exclude: /node_modules/
-    }]
+    rules: [
+      {
+        test: /\.ts$/,
+        use: 'ts-loader',
+        include: path.resolve(__dirname, 'src'),
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.less$/,
+        use: ['style-loader', 'css-loader', 'less-loader'],
+        include: path.resolve(__dirname, 'src/less'),
+      },
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        use: ['file-loader'],
+        exclude: /node_modules/,
+      },
+    ],
   },
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      title: 'Unknown'
+      title: 'Unknown',
     }),
   ],
   resolve: {
     extensions: ['.ts', '.js'],
-    symlinks: false
+    symlinks: false,
   },
   optimization: {
     usedExports: true,

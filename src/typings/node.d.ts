@@ -1,5 +1,4 @@
-
-declare namespace NodeDataTypes{
+declare namespace NodeDataTypes {
   interface Node {
     element: HTMLElement
     content: string

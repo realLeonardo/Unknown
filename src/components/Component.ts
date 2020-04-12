@@ -1,9 +1,8 @@
-
-class Component{
+class Component {
   public el: HTMLElement
   public state: Object
 
-  constructor(){
+  constructor() {
     // TODO
   }
 }

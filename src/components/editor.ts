@@ -14,14 +14,14 @@ class EditorComponent {
     containerEl: undefined,
     currentEditEl: undefined,
     titleInputEl: undefined,
-    title: 'Untitled'
+    title: 'Untitled',
   }
 
   constructor() {
     // do nothing
   }
 
-  public init(container: HTMLElement = document.body, props ? : {}) {
+  public init(container: HTMLElement = document.body, props?: {}) {
     const rootEl = document.createElement('div')
     rootEl.className = 'editor-root-container'
     this.rootEl = rootEl
@@ -44,19 +44,22 @@ class EditorComponent {
     this.initState()
     this.initEventHandle()
   }
-  public getTitle(): string{
+  public getTitle(): string {
     return this.state.title
   }
-  public getContentString(): string{
+  public getContentString(): string {
     return this.state.containerEl.innerHTML
   }
-  public setArticle(article: ArticleDataTypes.ArticleData){
+  public setArticle(article: ArticleDataTypes.ArticleData) {
     this.state.title = article.title
     this.state.titleInputEl.value = article.title
     this.state.containerEl.innerHTML = article.content
   }
+  public static saveArticle() {
+    console.log('here')
+  }
 
-  private initState(){
+  private initState() {
     // Just for test
     const pItem = document.createElement('p')
     pItem.setAttribute('contenteditable', 'true')
@@ -66,13 +69,22 @@ class EditorComponent {
 
     NodesDataService.push({
       element: pItem,
-      content: pItem.innerText
+      content: pItem.innerText,
     })
   }
   private initEventHandle() {
-    this.state.containerEl.addEventListener('click', this.handleEditorClick.bind(this))
-    this.state.containerEl.addEventListener('keydown', this.handleEditorInput.bind(this))
-    this.state.titleInputEl.addEventListener('input', this.handleTitleInputChange.bind(this))
+    this.state.containerEl.addEventListener(
+      'click',
+      this.handleEditorClick.bind(this)
+    )
+    this.state.containerEl.addEventListener(
+      'keydown',
+      this.handleEditorInput.bind(this)
+    )
+    this.state.titleInputEl.addEventListener(
+      'input',
+      this.handleTitleInputChange.bind(this)
+    )
   }
   private handleEditorClick(e: Event) {
     this.state.currentEditEl = e.srcElement as HTMLElement
@@ -102,7 +114,7 @@ class EditorComponent {
         // TODO
         NodesDataService.push({
           element: p,
-          content: p.innerText
+          content: p.innerText,
         })
       }
       this.state.currentEditEl.focus()
@@ -111,7 +123,8 @@ class EditorComponent {
       const currentEditEl = this.state.currentEditEl
       if (currentEditEl.innerText === '') {
         if (currentEditEl.previousElementSibling) {
-          const next = this.state.currentEditEl.previousElementSibling as HTMLElement
+          const next = this.state.currentEditEl
+            .previousElementSibling as HTMLElement
           this.state.currentEditEl = next
           currentEditEl.remove()
           e.preventDefault()

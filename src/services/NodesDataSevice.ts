@@ -1,4 +1,3 @@
-
 class NodesDataService {
   /**
    * 数据长度
@@ -26,7 +25,7 @@ class NodesDataService {
     this.nodeData.push({
       node,
       parent: undefined,
-      children: []
+      children: [],
     })
   }
 
@@ -86,7 +85,9 @@ class NodesDataService {
       n.parent = n.parent.children[lastIndex - 1]
       n.parent.children.push(n)
 
-      const indexStr = `${firstIndex}${indexArr.join('-') === ''?'':'-' + indexArr.join('-')}-${lastIndex-1}-${n.parent.children.length - 1}`
+      const indexStr = `${firstIndex}${
+        indexArr.join('-') === '' ? '' : '-' + indexArr.join('-')
+      }-${lastIndex - 1}-${n.parent.children.length - 1}`
       n.node.element.setAttribute('data-index', indexStr)
       const span = document.createElement('span')
       span.innerHTML = '👉'
