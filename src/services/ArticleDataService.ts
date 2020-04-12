@@ -20,7 +20,7 @@ export default class ArticleDataService {
         if (savedArticleData) {
           resolve(savedArticleData)
         } else {
-          reject([])
+          resolve([])
         }
       })
     })

@@ -30,6 +30,8 @@ class ArticleListComponent {
     const first = this.state.containerEl.firstChild as HTMLElement
     if (first) {
       first.click()
+    } else {
+      editor.createArticle()
     }
   }
 
