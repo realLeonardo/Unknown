@@ -1,9 +1,7 @@
 import { storage } from './StorageService'
 
 export default class ArticleDataService {
-  public static getById(
-    id: string
-  ): Promise<ArticleDataTypes.ArticleData | null> {
+  public static getById(id: string): Promise<ArticleDataTypes.ArticleData | null> {
     return new Promise((resolve, reject) => {
       storage.get(['savedArticleData'], ({ savedArticleData }) => {
         savedArticleData.forEach((item) => {
@@ -16,7 +14,7 @@ export default class ArticleDataService {
     })
   }
 
-  public getAll(): Promise<ArticleDataTypes.ArticleData[]> {
+  public static getAll(): Promise<ArticleDataTypes.ArticleData[]> {
     return new Promise((resolve, reject) => {
       storage.get(['savedArticleData'], ({ savedArticleData }) => {
         if (savedArticleData) {
@@ -28,7 +26,7 @@ export default class ArticleDataService {
     })
   }
 
-  public setById(article: ArticleDataTypes.ArticleData): Promise<boolean> {
+  public static setById(article: ArticleDataTypes.ArticleData): Promise<boolean> {
     return new Promise((resolve, reject) => {
       storage.get(['savedArticleData'], ({ savedArticleData }) => {
         if (savedArticleData) {

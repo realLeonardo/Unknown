@@ -1,10 +1,14 @@
 import '../less/editor.less'
 import NodesDataService from '../services/NodesDataSevice'
+import { storage } from '../services/StorageService'
+import articleList from './articleList'
+import ArticleDataService from '../services/ArticleDataService'
 
 interface State {
   containerEl: HTMLDivElement
   currentEditEl: HTMLElement
   titleInputEl: HTMLInputElement
+  id: string
   title: string
 }
 
@@ -14,6 +18,7 @@ class EditorComponent {
     containerEl: undefined,
     currentEditEl: undefined,
     titleInputEl: undefined,
+    id: undefined,
     title: 'Untitled',
   }
 
@@ -51,12 +56,58 @@ class EditorComponent {
     return this.state.containerEl.innerHTML
   }
   public setArticle(article: ArticleDataTypes.ArticleData) {
+    this.state.id = article.id
     this.state.title = article.title
     this.state.titleInputEl.value = article.title
     this.state.containerEl.innerHTML = article.content
   }
-  public static saveArticle() {
-    console.log('here')
+  public async saveArticle() {
+    const savedArticleData = await ArticleDataService.getAll()
+    console.log(savedArticleData)
+
+    for (let i = 0; i < savedArticleData.length; i++) {
+      if (savedArticleData[i].id === this.state.id) {
+        console.log(savedArticleData[i])
+        savedArticleData[i].content = this.getContentString()
+        savedArticleData[i].title = this.getTitle()
+        break
+      }
+    }
+
+    storage.set({ savedArticleData })
+    articleList.refresh()
+  }
+  public async createArticle() {
+    let savedArticleData = await ArticleDataService.getAll()
+
+    const pItem = document.createElement('p')
+    pItem.setAttribute('contenteditable', 'true')
+    pItem.setAttribute('data-index', '0')
+    pItem.innerText = 'Edit here'
+    this.state.containerEl.append(pItem)
+
+    const data: ArticleDataTypes.ArticleData = {
+      id: Date.now().toString(16),
+      title: 'Untitled',
+      content: this.getContentString(),
+      createAt: Date.now(),
+    }
+    this.state.id = data.id
+
+    if (savedArticleData) {
+      savedArticleData.unshift(data)
+    } else {
+      savedArticleData = [data]
+    }
+    storage.set({ savedArticleData })
+    articleList.refresh()
+  }
+  public async deleteArticle() {
+    let savedArticleData = await ArticleDataService.getAll()
+
+    savedArticleData = savedArticleData.filter(item => item.id !== this.state.id)
+    storage.set({ savedArticleData })
+    articleList.refresh()
   }
 
   private initState() {
@@ -73,18 +124,13 @@ class EditorComponent {
     })
   }
   private initEventHandle() {
-    this.state.containerEl.addEventListener(
-      'click',
-      this.handleEditorClick.bind(this)
-    )
-    this.state.containerEl.addEventListener(
-      'keydown',
-      this.handleEditorInput.bind(this)
-    )
-    this.state.titleInputEl.addEventListener(
-      'input',
-      this.handleTitleInputChange.bind(this)
-    )
+    this.state.containerEl.addEventListener('click', this.handleEditorClick.bind(this))
+    this.state.containerEl.addEventListener('keydown', this.handleEditorInput.bind(this))
+    this.state.titleInputEl.addEventListener('input', this.handleTitleInputChange.bind(this))
+
+    // this.state.containerEl.addEventListener('change', (e) => {
+    //   console.log(e)
+    // })
   }
   private handleEditorClick(e: Event) {
     this.state.currentEditEl = e.srcElement as HTMLElement

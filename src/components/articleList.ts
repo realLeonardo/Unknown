@@ -21,12 +21,16 @@ class ArticleListComponent {
     container.append(rootEl)
 
     this.initElement()
-    this.initState()
-    this.initEventHandle()
+    this.refresh()
   }
 
   public refresh() {
     this.initState()
+
+    const first = this.state.containerEl.firstChild as HTMLElement
+    if (first) {
+      first.click()
+    }
   }
 
   private initState() {
@@ -49,17 +53,6 @@ class ArticleListComponent {
     containerEl.className = 'articles-list-container'
     this.state.containerEl = containerEl
     this.rootEl.append(containerEl)
-  }
-
-  private initEventHandle() {
-    this.state.containerEl
-      .querySelectorAll('.article-container')
-      .forEach((item) => {
-        item.addEventListener(
-          'click',
-          this.handleArticleItemClick.bind(this, item)
-        )
-      })
   }
 
   private handleArticleItemClick(el: HTMLElement, e: Event) {
@@ -93,6 +86,7 @@ class ArticleListComponent {
       timeEl.innerText = new Date(item.createAt).toLocaleDateString()
       tempEl.append(timeEl)
 
+      tempEl.addEventListener('click', this.handleArticleItemClick.bind(this, tempEl))
       this.state.containerEl.append(tempEl)
     })
   }
