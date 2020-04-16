@@ -1,7 +1,8 @@
+import Component from '../base/Component'
 import '../less/editor.less'
 import NodesDataService from '../services/NodesDataSevice'
 import { storage } from '../services/StorageService'
-import articleList from './articleList'
+import articleList from './ArticleList'
 import ArticleDataService from '../services/ArticleDataService'
 
 const DEFAULT_ARTICLE_CONTENT = '<p contenteditable="true" data-index="0">Edit here</p>'
@@ -14,9 +15,9 @@ interface State {
   title: string
 }
 
-class EditorComponent {
+class EditorComponent extends Component {
   private rootEl: HTMLElement
-  private state: State = {
+  public state: State = {
     containerEl: undefined,
     currentEditEl: undefined,
     titleInputEl: undefined,
@@ -25,6 +26,7 @@ class EditorComponent {
   }
 
   constructor() {
+    super()
     // do nothing
   }
 

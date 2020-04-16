@@ -1,6 +1,6 @@
 import '../less/article-list.less'
 import { storage } from '../services/StorageService'
-import editor from './editor'
+import editor from './Editor'
 
 interface State {
   articles: ArticleDataTypes.ArticleData[]

@@ -1,7 +1,7 @@
 import './less/main.less'
-import Editor from './components/editor'
-import ToolsBar from './components/toolsBar'
-import ArticleList from './components/articleList'
+import Editor from './components/Editor'
+import ToolsBar from './components/ToolsBar'
+import ArticleList from './components/ArticleList'
 
 function init() {
   const bodyEl = document.body

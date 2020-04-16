@@ -1,17 +1,20 @@
+import Component from '../base/Component'
 import '../less/tools-bar.less'
-import brainMap from './brainMap'
-import editor from './editor'
+import brainMap from './BrainMap'
+import editor from './Editor'
 
 // tslint:disable-next-line: no-empty-interface
 interface State {
   // do nothing
 }
 
-class TollsBarComponent {
+class TollsBarComponent extends Component {
   private rootEl: HTMLElement
-  private state: State = {}
+  public state: State = {}
 
   constructor() {
+    super()
+
     // do nothing
   }
 
@@ -57,8 +60,9 @@ class TollsBarComponent {
   }
 
   private handleShowBrainMapClick(e: Event) {
-    console.log('是时候生成脑图了~')
-    brainMap.init()
+    alert('是时候生成脑图了~')
+    // TODO
+    // brainMap.init()
   }
   private handleSaveArticleBtnClick(e: Event) {
     editor.saveArticle()

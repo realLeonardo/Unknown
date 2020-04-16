@@ -1,7 +1,7 @@
 import * as echarts from 'echarts'
 import '../less/brain-map.less'
 import NodesDataService from '../services/NodesDataSevice'
-import Editor from './editor'
+import Editor from './Editor'
 
 interface State {
   containerEl: HTMLDivElement
