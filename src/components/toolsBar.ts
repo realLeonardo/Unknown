@@ -14,11 +14,17 @@ class TollsBarComponent extends Component {
 
   constructor() {
     super()
-
     // do nothing
+  }
+  public onLoad() {
+    console.log('onload~', this.rootEl)
+  }
+  public onReady() {
+    console.log('onReady~', this.rootEl)
   }
 
   public init(container: HTMLElement = document.body, props?: {}) {
+    console.log('onInit~')
     const rootEl = document.createElement('div')
     rootEl.className = 'tools-bar-container'
 
@@ -28,17 +34,12 @@ class TollsBarComponent extends Component {
     this.initBtns()
   }
   private initBtns() {
-    const genTreeMapBtnEl = document.createElement('button')
-    genTreeMapBtnEl.className = 'tool-btn'
-    genTreeMapBtnEl.innerHTML = 'Gen Brain-Map'
-    genTreeMapBtnEl.addEventListener('click', this.handleShowBrainMapClick.bind(this))
-    this.rootEl.append(genTreeMapBtnEl)
-
-    const createArticleBtnEl = document.createElement('button')
-    createArticleBtnEl.className = 'tool-btn create-article-btn'
-    createArticleBtnEl.innerHTML = 'New'
-    createArticleBtnEl.addEventListener('click', this.handleCreateArticleBtnClick.bind(this))
-    this.rootEl.append(createArticleBtnEl)
+    // NOTE：生成脑图，先注释掉
+    // const genTreeMapBtnEl = document.createElement('button')
+    // genTreeMapBtnEl.className = 'tool-btn'
+    // genTreeMapBtnEl.innerHTML = 'Gen Brain-Map'
+    // genTreeMapBtnEl.addEventListener('click', this.handleShowBrainMapClick.bind(this))
+    // this.rootEl.append(genTreeMapBtnEl)
 
     const saveArticleBtnEl = document.createElement('button')
     saveArticleBtnEl.className = 'tool-btn save-data-btn'
@@ -46,17 +47,23 @@ class TollsBarComponent extends Component {
     saveArticleBtnEl.addEventListener('click', this.handleSaveArticleBtnClick.bind(this))
     this.rootEl.append(saveArticleBtnEl)
 
+    const createArticleBtnEl = document.createElement('button')
+    createArticleBtnEl.className = 'tool-btn create-article-btn'
+    createArticleBtnEl.innerHTML = 'New'
+    createArticleBtnEl.addEventListener('click', this.handleCreateArticleBtnClick.bind(this))
+    this.rootEl.append(createArticleBtnEl)
+
     const deleteArticleBtnEl = document.createElement('button')
     deleteArticleBtnEl.className = 'tool-btn delete-article-btn'
     deleteArticleBtnEl.innerHTML = 'Delete'
     deleteArticleBtnEl.addEventListener('click', this.handleDeleteArticleBtnClick.bind(this))
     this.rootEl.append(deleteArticleBtnEl)
 
-    const todoBtnEl = document.createElement('button')
-    todoBtnEl.className = 'tool-btn save-data-btn'
-    todoBtnEl.innerHTML = 'TODO'
-    todoBtnEl.addEventListener('click', this.handleCreateArticleBtnClick.bind(this))
-    this.rootEl.append(todoBtnEl)
+    // const todoBtnEl = document.createElement('button')
+    // todoBtnEl.className = 'tool-btn save-data-btn'
+    // todoBtnEl.innerHTML = 'TODO'
+    // todoBtnEl.addEventListener('click', this.handleCreateArticleBtnClick.bind(this))
+    // this.rootEl.append(todoBtnEl)
   }
 
   private handleShowBrainMapClick(e: Event) {

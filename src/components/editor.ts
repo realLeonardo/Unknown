@@ -5,7 +5,9 @@ import { storage } from '../services/StorageService'
 import articleList from './ArticleList'
 import ArticleDataService from '../services/ArticleDataService'
 
-const DEFAULT_ARTICLE_CONTENT = '<p contenteditable="true" data-index="0">Edit here</p>'
+const DEFAULT_ARTICLE_CONTENT = '<p contenteditable="true">Edit here</p>'
+
+type STATE_TYPE = 'containerEl' | 'currentEditEl' | 'titleInputEl' | 'id' | 'title'
 
 interface State {
   containerEl: HTMLDivElement
@@ -15,7 +17,7 @@ interface State {
   title: string
 }
 
-class EditorComponent extends Component {
+class Editor extends Component {
   private rootEl: HTMLElement
   public state: State = {
     containerEl: undefined,
@@ -28,6 +30,12 @@ class EditorComponent extends Component {
   constructor() {
     super()
     // do nothing
+  }
+  public onLoad() {
+    console.log('onload~')
+  }
+  public onReady() {
+    console.log('onReady~')
   }
 
   public init(container: HTMLElement = document.body, props?: {}) {
@@ -112,10 +120,8 @@ class EditorComponent extends Component {
   }
 
   private initState() {
-    // Just for test
     const pItem = document.createElement('p')
     pItem.setAttribute('contenteditable', 'true')
-    pItem.setAttribute('data-index', '0')
     pItem.innerText = 'Edit here'
     this.state.containerEl.append(pItem)
 
@@ -155,7 +161,6 @@ class EditorComponent extends Component {
         const p = document.createElement('p')
 
         p.setAttribute('contenteditable', 'true')
-        p.setAttribute('data-index', NodesDataService.getLength() + '')
         this.state.containerEl.append(p)
         this.state.currentEditEl = p
         // TODO
@@ -184,4 +189,4 @@ class EditorComponent extends Component {
   }
 }
 
-export default new EditorComponent()
+export default new Editor()

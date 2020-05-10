@@ -87,7 +87,7 @@ class NodesDataService {
 
       const indexStr = `${firstIndex}${
         indexArr.join('-') === '' ? '' : '-' + indexArr.join('-')
-      }-${lastIndex - 1}-${n.parent.children.length - 1}`
+        }-${lastIndex - 1}-${n.parent.children.length - 1}`
       n.node.element.setAttribute('data-index', indexStr)
       const span = document.createElement('span')
       span.innerHTML = '👉'
