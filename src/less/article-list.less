@@ -1,44 +1,46 @@
 #sidebar-container {
-  > .title {
+  >.title {
     padding: 10px 14px;
     font-size: 14px;
     line-height: 50px;
     color: #37352f;
   }
-  > .articles-list-container {
+
+  >.articles-list-container {
     width: 100%;
 
-    > .article-container {
+    >.article-container {
       padding: 5px 14px;
       cursor: pointer;
       color: #37352f;
 
-      > .title {
-        font-size: 14px;
-        line-height: 22px;
+      >.title {
+        font-size: 16px;
+        line-height: 30px;
       }
-      > .time {
-        font-size: 11px;
-        line-height: 14px;
+
+      >.time {
+        font-size: 12px;
+        line-height: 18px;
       }
 
       &:hover {
         background-color: #e8e7e4;
         color: black;
 
-        > .title {
+        >.title {
           font-size: 14px;
-          font-weight: bold;
         }
       }
     }
-    > .article-container.active {
+
+    >.article-container.active {
       background-color: #e8e7e4;
       color: black;
 
-      > .title {
+      >.title {
         font-size: 14px;
-        font-weight: bold;
+        font-weight: 500;
       }
     }
   }

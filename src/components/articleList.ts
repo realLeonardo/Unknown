@@ -48,7 +48,7 @@ class ArticleListComponent {
   private initElement() {
     const titleEl = document.createElement('p')
     titleEl.className = 'title'
-    titleEl.innerText = 'My Articles'
+    titleEl.innerText = 'All'
     this.rootEl.append(titleEl)
 
     const containerEl = document.createElement('div')
