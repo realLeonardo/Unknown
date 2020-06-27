@@ -1,20 +1,27 @@
 import '../less/article-list.less'
 import { storage } from '../services/StorageService'
-import editor from './Editor'
+import NoteDataService from '../services/NotesService'
+import Editor from './Editor'
 
 interface State {
-  articles: ArticleDataTypes.ArticleData[]
+  notes: Models.Note[]
   containerEl: HTMLDivElement
 }
 
 class ArticleListComponent {
-  private rootEl: HTMLElement
   private state: State = {
-    articles: [],
+    notes: [],
     containerEl: undefined,
   }
 
-  public init(container: HTMLElement = document.body, options?: {}) {
+  private noteService: NoteDataService
+  private rootEl: HTMLElement
+  private currentIndex: number
+
+  public async init(container: HTMLElement = document.body, options?: {}) {
+    this.noteService = NoteDataService.getNoteService()
+    await this.noteService.init()
+
     const rootEl = document.createElement('div')
     rootEl.id = 'sidebar-container'
     this.rootEl = rootEl
@@ -31,18 +38,13 @@ class ArticleListComponent {
     if (first) {
       first.click()
     } else {
-      editor.createArticle()
+      this.noteService.create()
     }
   }
 
   private initState() {
-    storage.get(['savedArticleData'], ({ savedArticleData }) => {
-      if (savedArticleData) {
-        this.state.articles = savedArticleData
-      }
-
-      this.renderArticlesList()
-    })
+    this.state.notes = this.noteService.notes
+    this.renderArticlesList()
   }
 
   private initElement() {
@@ -65,15 +67,16 @@ class ArticleListComponent {
       })
     el.className = 'article-container active'
 
-    // TODO：传数据
     const index = parseInt(el.getAttribute('data-index'))
-    editor.setArticle(this.state.articles[index])
+    this.currentIndex = index
+    this.noteService.currentNote = this.state.notes[index]
+    Editor.setArticle(this.noteService.currentNote)
   }
 
   private renderArticlesList() {
     this.state.containerEl.innerHTML = ''
 
-    this.state.articles.forEach((item, index) => {
+    this.state.notes.forEach((item, index) => {
       const tempEl: HTMLElement = document.createElement('div')
       tempEl.className = 'article-container'
       tempEl.setAttribute('data-index', index + '')

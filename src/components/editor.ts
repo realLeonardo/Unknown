@@ -1,11 +1,6 @@
-import Component from '../base/Component'
 import '../less/editor.less'
-import NodesDataService from '../services/NodesDataSevice'
-import { storage } from '../services/StorageService'
 import articleList from './ArticleList'
-import ArticleDataService from '../services/ArticleDataService'
-
-const DEFAULT_ARTICLE_CONTENT = '<p contenteditable="true">Edit here</p>'
+import NoteDataService from '../services/NotesService'
 
 type STATE_TYPE = 'containerEl' | 'currentEditEl' | 'titleInputEl' | 'id' | 'title'
 
@@ -17,8 +12,7 @@ interface State {
   title: string
 }
 
-class Editor extends Component {
-  private rootEl: HTMLElement
+class Editor {
   public state: State = {
     containerEl: undefined,
     currentEditEl: undefined,
@@ -27,18 +21,16 @@ class Editor extends Component {
     title: 'Untitled',
   }
 
+  private noteService: NoteDataService
+  private rootEl: HTMLElement
+
   constructor() {
-    super()
     // do nothing
   }
-  public onLoad() {
-    console.log('onload~')
-  }
-  public onReady() {
-    console.log('onReady~')
-  }
 
-  public init(container: HTMLElement = document.body, props?: {}) {
+  public async init(container: HTMLElement = document.body, props?: {}) {
+    this.noteService = NoteDataService.getNoteService()
+    this.noteService.init()
     const rootEl = document.createElement('div')
     rootEl.className = 'editor-root-container'
     this.rootEl = rootEl
@@ -61,62 +53,20 @@ class Editor extends Component {
     this.initState()
     this.initEventHandle()
   }
+
   public getTitle(): string {
     return this.state.title
   }
+
   public getContentString(): string {
     return this.state.containerEl.innerHTML
   }
-  public setArticle(article: ArticleDataTypes.ArticleData) {
-    this.state.id = article.id
-    this.state.title = article.title
-    this.state.titleInputEl.value = article.title
-    this.state.containerEl.innerHTML = article.content
-  }
-  public async saveArticle() {
-    const savedArticleData = await ArticleDataService.getAll()
 
-    // TODO
-    for (let i = 0; i < savedArticleData.length; i++) {
-      if (savedArticleData[i].id === this.state.id) {
-        console.log(savedArticleData[i])
-        savedArticleData[i].content = this.getContentString()
-        savedArticleData[i].title = this.getTitle()
-        break
-      }
-    }
-
-    storage.set({ savedArticleData })
-    articleList.refresh()
-  }
-  public async createArticle() {
-    let savedArticleData = await ArticleDataService.getAll()
-
-    const data: ArticleDataTypes.ArticleData = {
-      id: Date.now().toString(16),
-      title: 'Untitled',
-      content: DEFAULT_ARTICLE_CONTENT,
-      createAt: Date.now(),
-    }
-    this.state.id = data.id
-
-    if (savedArticleData) {
-      savedArticleData.unshift(data)
-    } else {
-      savedArticleData = [data]
-    }
-    storage.set({ savedArticleData })
-    articleList.refresh()
-  }
-  public async deleteArticle() {
-    let savedArticleData = await ArticleDataService.getAll()
-
-    savedArticleData = savedArticleData.filter(item => item.id !== this.state.id)
-    storage.set({ savedArticleData })
-    if (savedArticleData.length === 0) {
-      this.createArticle()
-    }
-    articleList.refresh()
+  public setArticle(note: Models.Note) {
+    this.state.id = note.id
+    this.state.title = note.title
+    this.state.titleInputEl.value = note.title
+    this.state.containerEl.innerHTML = note.content
   }
 
   private initState() {
@@ -124,33 +74,28 @@ class Editor extends Component {
     pItem.setAttribute('contenteditable', 'true')
     pItem.innerText = 'Edit here'
     this.state.containerEl.append(pItem)
-
-    NodesDataService.push({
-      element: pItem,
-      content: pItem.innerText,
-    })
   }
+
   private initEventHandle() {
     this.state.containerEl.addEventListener('click', this.handleEditorClick.bind(this))
     this.state.containerEl.addEventListener('keydown', this.handleEditorInput.bind(this))
     this.state.titleInputEl.addEventListener('input', this.handleTitleInputChange.bind(this))
-
-    // this.state.containerEl.addEventListener('change', (e) => {
-    //   console.log(e)
-    // })
   }
+
   private handleEditorClick(e: Event) {
     this.state.currentEditEl = e.srcElement as HTMLElement
   }
+
   private handleTitleInputChange(e: InputEvent) {
     this.state.title = (e.target as HTMLInputElement).value
+    this.noteService.currentNote.title = this.state.title
   }
+
   private handleEditorInput(e: KeyboardEvent) {
     // 插入
     if (e.key === 'Tab') {
       // Tab
       e.preventDefault()
-      NodesDataService.turn(this.state.currentEditEl)
     } else if (e.key === 'Enter') {
       // 回车
       e.preventDefault()
@@ -163,11 +108,6 @@ class Editor extends Component {
         p.setAttribute('contenteditable', 'true')
         this.state.containerEl.append(p)
         this.state.currentEditEl = p
-        // TODO
-        NodesDataService.push({
-          element: p,
-          content: p.innerText,
-        })
       }
       this.state.currentEditEl.focus()
     } else if (e.key === 'Backspace') {

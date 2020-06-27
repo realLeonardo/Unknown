@@ -1,6 +1,6 @@
 import './less/main.less'
 import Editor from './components/Editor'
-import ToolsBar from './components/ToolsBar'
+import ToolsBar from './components/ToolBar'
 import ArticleList from './components/ArticleList'
 
 function init() {

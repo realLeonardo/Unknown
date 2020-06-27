@@ -1,6 +1,8 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const {
+  CleanWebpackPlugin
+} = require('clean-webpack-plugin')
 
 module.exports = {
   entry: './src/index.ts',
@@ -9,8 +11,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
   },
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.ts$/,
         use: 'ts-loader',
         include: path.resolve(__dirname, 'src'),
@@ -31,7 +32,7 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      title: 'Unknown',
+      title: 'Notes',
     }),
   ],
   resolve: {
