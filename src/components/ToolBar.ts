@@ -60,6 +60,7 @@ class ToolBarComponent {
   private async handleSaveArticleBtnClick(e: Event) {
     this.noteService.currentNote.content = Editor.state.containerEl.innerHTML
     await this.noteService.save()
+    ArticleList.refresh()
   }
   private async handleCreateArticleBtnClick(e: Event) {
     await this.noteService.create()
