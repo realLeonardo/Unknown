@@ -1,14 +1,13 @@
 import '../less/article-list.less'
-import { storage } from '../services/StorageService'
 import NoteDataService from '../services/NotesService'
-import Editor from './editor'
+import Editor from './Editor'
 
 interface State {
   notes: Models.Note[]
   containerEl: HTMLDivElement
 }
 
-class ArticleListComponent {
+class ArticleList {
   private state: State = {
     notes: [],
     containerEl: undefined,
@@ -97,4 +96,4 @@ class ArticleListComponent {
   }
 }
 
-export default new ArticleListComponent()
+export default new ArticleList()

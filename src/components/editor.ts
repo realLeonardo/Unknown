@@ -1,9 +1,9 @@
 import '../less/editor.less'
-import articleList from './articleList'
 import NoteDataService from '../services/NotesService'
 
 type STATE_TYPE = 'containerEl' | 'currentEditEl' | 'titleInputEl' | 'id' | 'title'
 
+// NOTE: 暂时直接存 Dom，后期考虑造个简单的 VDom
 interface State {
   containerEl: HTMLDivElement
   currentEditEl: HTMLElement
@@ -82,8 +82,8 @@ class Editor {
     this.state.titleInputEl.addEventListener('input', this.handleTitleInputChange.bind(this))
   }
 
-  private handleEditorClick(e: Event) {
-    this.state.currentEditEl = e.srcElement as HTMLElement
+  private handleEditorClick(e: MouseEvent) {
+    this.state.currentEditEl = e.target as HTMLElement
   }
 
   private handleTitleInputChange(e: InputEvent) {

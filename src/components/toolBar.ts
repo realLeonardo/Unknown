@@ -3,8 +3,8 @@
  */
 import '../less/tools-bar.less'
 import NoteDataService from '../services/NotesService'
-import Editor from './editor'
-import ArticleList from './articleList'
+import Editor from './Editor'
+import ArticleList from './ArticleList'
 
 // tslint:disable-next-line: no-empty-interface
 interface State {
@@ -34,39 +34,45 @@ class ToolBarComponent {
     this.initBtns()
   }
 
-  private initBtns() {
-    // Save
-    const saveArticleBtnEl = document.createElement('button')
-    saveArticleBtnEl.className = 'tool-btn save-data-btn'
-    saveArticleBtnEl.innerHTML = 'Save'
-    saveArticleBtnEl.addEventListener('click', this.handleSaveArticleBtnClick.bind(this))
-    this.rootEl.append(saveArticleBtnEl)
-
-    // Create a new one
-    const createArticleBtnEl = document.createElement('button')
-    createArticleBtnEl.className = 'tool-btn create-article-btn'
-    createArticleBtnEl.innerHTML = 'New'
-    createArticleBtnEl.addEventListener('click', this.handleCreateArticleBtnClick.bind(this))
-    this.rootEl.append(createArticleBtnEl)
-
-    // Delete
-    const deleteArticleBtnEl = document.createElement('button')
-    deleteArticleBtnEl.className = 'tool-btn delete-article-btn'
-    deleteArticleBtnEl.innerHTML = 'Delete'
-    deleteArticleBtnEl.addEventListener('click', this.handleDeleteArticleBtnClick.bind(this))
-    this.rootEl.append(deleteArticleBtnEl)
-  }
-
-  private async handleSaveArticleBtnClick(e: Event) {
+  public async saveCurrentNote(){
     this.noteService.currentNote.content = Editor.state.containerEl.innerHTML
     await this.noteService.save()
     ArticleList.refresh()
   }
-  private async handleCreateArticleBtnClick(e: Event) {
+
+  private initBtns() {
+    // Save
+    const saveNoteBtnEl = document.createElement('button')
+    saveNoteBtnEl.className = 'tool-btn save-data-btn'
+    saveNoteBtnEl.innerHTML = 'Save'
+    saveNoteBtnEl.addEventListener('click', this.handleSaveNoteBtnClick.bind(this))
+    this.rootEl.append(saveNoteBtnEl)
+
+    // Create
+    const createNoteBtnEl = document.createElement('button')
+    createNoteBtnEl.className = 'tool-btn create-note-btn'
+    createNoteBtnEl.innerHTML = 'New'
+    createNoteBtnEl.addEventListener('click', this.handleCreateNoteBtnClick.bind(this))
+    this.rootEl.append(createNoteBtnEl)
+
+    // Delete
+    const deleteNoteBtnEl = document.createElement('button')
+    deleteNoteBtnEl.className = 'tool-btn delete-note-btn'
+    deleteNoteBtnEl.innerHTML = 'Delete'
+    deleteNoteBtnEl.addEventListener('click', this.handleDeleteNoteBtnClick.bind(this))
+    this.rootEl.append(deleteNoteBtnEl)
+  }
+
+  private async handleSaveNoteBtnClick(e?: Event) {
+    await this.saveCurrentNote()
+  }
+
+  private async handleCreateNoteBtnClick(e: Event) {
     await this.noteService.create()
     ArticleList.refresh()
   }
-  private async handleDeleteArticleBtnClick(e: Event) {
+
+  private async handleDeleteNoteBtnClick(e: Event) {
     await this.noteService.deleteCurrentNode()
     ArticleList.refresh()
   }

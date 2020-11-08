@@ -1,22 +1,21 @@
-import './less/main.less'
-import Editor from './components/editor'
-import ToolsBar from './components/toolBar'
-import ArticleList from './components/articleList'
+import MainPage from './pages/MainPage'
+import AboutPage from './pages/AboutPage'
 
-function init() {
-  const bodyEl = document.body
-  const mainContainerEl = document.createElement('div')
-  mainContainerEl.id = 'main-container'
+(()=>{
+  const pathname: string = location.pathname
 
-  ToolsBar.init(mainContainerEl)
-  Editor.init(mainContainerEl)
-  ArticleList.init()
+  switch(pathname){
+    case '/': {
+      MainPage.init()
+      break
+    }
+    case '/about': {
+      AboutPage.init()
+      break
+    }
+    default: {
+      window.location.href = '/'
+    }
+  }
 
-  bodyEl.append(mainContainerEl)
-  /**
-   * TODO：全局事件
-   * focus 编辑器
-   */
-}
-
-init()
+})()

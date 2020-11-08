@@ -4,9 +4,10 @@
 
 ### 20.9.15-
 
+- [x] Page router (in 20.11.8)
 - [ ] Auto save
-- [ ] 优化文章列表展示
-- [ ] 优化数据存储逻辑
+- [ ] Update notes list display style
+- [ ] Update data storage logic
 - [ ] Lots of things todo...
 
 ### 20.5.x - 20.6.x
