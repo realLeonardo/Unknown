@@ -4,7 +4,7 @@
 
 ### 20.9.15-
 
-- [x] Page router (in 20.11.8)
+- [x] ~~Page router (in 20.11.8, deprecated)~~
 - [ ] Auto save
 - [ ] Update notes list display style
 - [ ] Update data storage logic
