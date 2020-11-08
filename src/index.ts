@@ -3,13 +3,21 @@ import AboutPage from './pages/AboutPage'
 
 (()=>{
   const pathname: string = location.pathname
+  const origin: string = location.origin
+
+  let BASE_PATHNAME: string = '/Unknown/dist'
+
+  // NOTE: dev
+  if(origin === 'http://localhost:8080'){
+    BASE_PATHNAME = ''
+  }
 
   switch(pathname){
-    case '/': {
+    case BASE_PATHNAME + '/': {
       MainPage.init()
       break
     }
-    case '/about': {
+    case BASE_PATHNAME + '/about': {
       AboutPage.init()
       break
     }
