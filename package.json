@@ -9,7 +9,7 @@
     "build": "webpack --config webpack.prod.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "lishuang",
   "license": "ISC",
   "devDependencies": {
     "clean-webpack-plugin": "^3.0.0",
@@ -27,6 +27,6 @@
   },
   "dependencies": {
     "@types/echarts": "^4.4.4",
-    "echarts": "^4.7.0"
+    "webpack-dev-server": "^3.11.0"
   }
 }

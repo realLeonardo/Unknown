@@ -1,5 +1,5 @@
 import '../less/editor.less'
-import articleList from './ArticleList'
+import articleList from './articleList'
 import NoteDataService from '../services/NotesService'
 
 type STATE_TYPE = 'containerEl' | 'currentEditEl' | 'titleInputEl' | 'id' | 'title'

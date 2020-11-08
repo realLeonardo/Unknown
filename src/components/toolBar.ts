@@ -3,8 +3,8 @@
  */
 import '../less/tools-bar.less'
 import NoteDataService from '../services/NotesService'
-import Editor from './Editor'
-import ArticleList from './ArticleList'
+import Editor from './editor'
+import ArticleList from './articleList'
 
 // tslint:disable-next-line: no-empty-interface
 interface State {

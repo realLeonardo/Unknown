@@ -1,7 +1,7 @@
 import '../less/article-list.less'
 import { storage } from '../services/StorageService'
 import NoteDataService from '../services/NotesService'
-import Editor from './Editor'
+import Editor from './editor'
 
 interface State {
   notes: Models.Note[]

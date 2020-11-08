@@ -1,9 +1,10 @@
-# A simple site to note things
+# A simple note site
 
-## Update logs
+## Roadmap
 
 ### 20.9.15-
 
+- [ ] Auto save
 - [ ] 优化文章列表展示
 - [ ] 优化数据存储逻辑
 - [ ] Lots of things todo...
