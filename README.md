@@ -1,5 +1,7 @@
 # A simple note site
 
+Inspired by [notion](https://www.notion.so/).
+
 ## Roadmap
 
 ### 20.9.15-
